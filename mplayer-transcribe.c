@@ -278,6 +278,7 @@ int main(int argc, char** argv) {
 			perror("waitpid");
 			exit(1);
 		} else if (r > 0) {
+			mplayer_pid = 0;
 			printf("\nmplayer quit.\n");
 			break;
 		}
@@ -335,7 +336,9 @@ int main(int argc, char** argv) {
 	// clean up
 	fclose(mplayer_pipe);
 	
-	waitpid(mplayer_pid, NULL, 0);
+	if (mplayer_pid != 0) {
+		waitpid(mplayer_pid, NULL, 0);
+	}
 	kill(x_pid, SIGINT);
 	waitpid(x_pid, NULL, 0);
 
